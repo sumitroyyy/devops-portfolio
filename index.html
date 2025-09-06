@@ -7,23 +7,24 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #0a0a0a;
+            background: radial-gradient(circle at 50% 50%, #0a0a0a, #000000); /* Subtle background gradient */
             color: #00ff00;
             font-family: 'JetBrains Mono', monospace;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes buttons to bottom */
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            background: radial-gradient(circle at 50% 50%, #0a0a0a, #000000);
+            overflow-y: auto; /* Allow scrolling for the entire body */
         }
 
         /* Mobile improvements for body padding */
         @media (max-width: 480px) {
             body {
-                padding: 10px; /* Reduce padding on very small screens */
+                padding: 10px;
                 align-items: flex-start; /* Align to top on small screens to prevent keyboard overlap */
             }
         }
@@ -32,33 +33,32 @@
             width: 100%;
             max-width: 800px;
             border: 1px solid #00ff00;
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6); /* Enhanced glow */
+            transition: box-shadow 0.3s ease-in-out;
             border-radius: 8px;
             overflow: hidden;
             background-color: #0a0a0a;
             display: flex;
             flex-direction: column;
             margin-bottom: 20px; /* Space between terminal and buttons */
-            transition: box-shadow 0.3s ease-in-out;
         }
 
         .terminal-wrapper:hover {
-            box-shadow: 0 0 35px rgba(0, 255, 0, 0.8);
+            box-shadow: 0 0 35px rgba(0, 255, 0, 0.8); /* Hover effect for glow */
         }
 
         .terminal-header {
-            background-color: #333;
+            background-color: #1a1a1a;
             padding: 8px 15px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             border-bottom: 1px solid #00ff00;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
         }
 
         .terminal-header-buttons {
             display: flex;
-            gap: 6px;
+            gap: 5px;
         }
 
         .terminal-header-button {
@@ -67,32 +67,43 @@
             border-radius: 50%;
             border: none;
             cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
-        .terminal-header-button.red { background-color: #ff5f56; }
-        .terminal-header-button.yellow { background-color: #ffbd2e; }
-        .terminal-header-button.green { background-color: #27c93f; }
+        .terminal-header-button.red {
+            background-color: #ff5f56;
+        }
+
+        .terminal-header-button.yellow {
+            background-color: #ffbd2e;
+        }
+
+        .terminal-header-button.green {
+            background-color: #27c93f;
+        }
 
         .terminal-title {
-            flex-grow: 1;
-            text-align: center;
-            color: #eee;
+            color: #fff;
             font-size: 0.9em;
+            flex-grow: 1; /* Allow title to take available space */
+            text-align: center;
         }
 
         .terminal-body {
             padding: 15px;
-            overflow-y: auto;
-            max-height: 60vh;
             white-space: pre-wrap;
-            word-break: break-all;
-            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 400px; /* Limit height of terminal output */
+            font-size: 0.95em;
+            line-height: 1.4;
+            flex-grow: 1; /* Allow terminal body to grow */
+            scroll-behavior: smooth;
         }
 
         .terminal-output-line {
             opacity: 0;
             transition: opacity 0.5s ease-in;
-            display: block; /* Ensures each line is on its own block for fade-in */
+            display: block;
         }
 
         .terminal-output-line.fade-in {
@@ -101,49 +112,49 @@
 
         /* Style for the LinkedIn hyperlink */
         .terminal-body a {
-            color: #00bfff; /* Bright blue for links */
+            color: #00bfff;
             text-decoration: underline;
         }
 
         .terminal-body a:hover {
-            color: #00e0ff; /* Slightly lighter blue on hover */
+            color: #00e0ff;
         }
 
         .terminal-input-area {
             display: flex;
             padding: 10px 15px;
             border-top: 1px solid #00ff00;
+            background-color: #1a1a1a;
+            align-items: center;
         }
 
         .terminal-prompt {
             color: #00ff00;
-            margin-right: 5px;
+            margin-right: 8px;
+            white-space: nowrap;
         }
 
         .terminal-input {
-            background: none;
+            background: transparent;
             border: none;
             color: #00ff00;
             flex-grow: 1;
-            caret-color: transparent; /* Hide default caret */
             outline: none;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1em;
+            font-size: 0.95em;
+            caret-color: transparent; /* Hide default caret */
             position: relative;
-            padding-right: 15px; /* Add some padding to prevent cursor from touching the edge */
+            padding-right: 15px; /* Prevent cursor from touching edge */
         }
 
-        .terminal-input:focus {
-            outline: none;
-        }
-
-        /* Green blinking cursor animation */
         .terminal-input:focus::after {
             content: '|';
             color: #00ff00;
             animation: blink-caret 1s infinite;
             position: absolute;
-            right: 0;
+            right: 8px; /* Adjust cursor position */
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         @keyframes blink-caret {
@@ -151,58 +162,42 @@
             50% { opacity: 1; }
         }
 
+        /* Command buttons styling */
         .command-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 15px;
             width: 100%;
             max-width: 800px;
+            margin-top: 20px;
+            padding-bottom: 20px; /* Ensure space at the very bottom */
         }
 
         .command-button {
             background-color: #00ff00;
             color: #0a0a0a;
-            border: 1px solid #00ff00;
-            padding: 10px 15px;
+            border: none;
+            padding: 12px 15px;
             border-radius: 5px;
-            cursor: pointer;
             font-family: 'JetBrains Mono', monospace;
             font-size: 1em;
+            cursor: pointer;
             transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
         }
 
         .command-button:hover {
             background-color: #0a0a0a;
             color: #00ff00;
-            box-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+            transform: translateY(-2px);
         }
 
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .command-buttons {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .command-buttons {
-                grid-template-columns: 1fr;
-            }
-            .terminal-body {
-                max-height: 60vh; /* Adjust terminal body height for mobile */
-                font-size: 0.9em; /* Slightly reduce font size for better fit on small screens */
-            }
-            .terminal-wrapper {
-                margin-bottom: 10px;
-                max-height: 90vh; /* Allow more vertical space on mobile */
-            }
-            .terminal-input-area {
-                padding: 8px 10px;
-            }
-            .command-button {
-                padding: 8px 10px;
-                font-size: 0.9em;
-            }
+        .command-button:active {
+            transform: translateY(0);
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
         }
 
         /* New styles for main content display */
@@ -211,20 +206,28 @@
             max-width: 800px;
             border: 1px solid #00ff00;
             box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+            transition: box-shadow 0.3s ease-in-out;
             border-radius: 8px;
             overflow: hidden;
             background-color: #0a0a0a;
-            display: flex;
+            display: none; /* Initially hidden, will be shown via JS */
             flex-direction: column;
-            margin-top: 20px; /* Space above main content */
+            flex-grow: 1; /* Allow content to grow and fill space */
             padding: 20px;
             box-sizing: border-box;
         }
 
+        #main-content-display:hover {
+            box-shadow: 0 0 35px rgba(0, 255, 0, 0.8); /* Hover effect for glow */
+        }
+
         .content-section {
-            border-bottom: 1px solid #00ff00;
-            padding-bottom: 20px;
+            padding: 0; /* Remove padding here as it's handled by main-content-display */
             margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            flex-grow: 1; /* Allow content sections to grow */
+            display: flex;
+            flex-direction: column;
         }
 
         .content-section:last-child {
@@ -243,6 +246,7 @@
             color: #00ff00;
             font-family: 'JetBrains Mono', monospace;
             line-height: 1.5;
+            flex-grow: 1; /* Allow pre content to grow within section */
         }
 
         .back-button {
@@ -256,6 +260,7 @@
             font-size: 1em;
             transition: all 0.2s ease;
             margin-top: 15px;
+            align-self: flex-start; /* Align button to start of content section */
         }
 
         .back-button:hover {
@@ -263,10 +268,62 @@
             color: #00ff00;
             box-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
         }
+
+        @media (max-width: 768px) {
+            .command-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .terminal-body {
+                max-height: 300px; /* Adjust terminal height for tablets */
+            }
+            #main-content-display {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+                align-items: flex-start; /* Align to top on small screens to prevent keyboard overlap */
+            }
+            .terminal-wrapper {
+                margin-bottom: 10px;
+                max-height: 90vh; /* Allow more vertical space on mobile */
+            }
+            .terminal-body {
+                max-height: 60vh; /* Adjusted from 50vh */
+                font-size: 0.9em;
+            }
+            .terminal-input-area {
+                padding: 8px 10px;
+            }
+            .command-buttons {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                margin-top: 15px;
+                padding-bottom: 10px;
+            }
+            .command-button {
+                padding: 8px 10px;
+                font-size: 0.9em;
+            }
+            #main-content-display {
+                padding: 10px;
+            }
+            .content-pre {
+                font-size: 0.85em;
+                padding: 10px;
+            }
+            .back-button {
+                font-size: 0.9em;
+                padding: 8px 12px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="terminal-wrapper">
+    <div class="terminal-wrapper" id="terminal-wrapper">
         <div class="terminal-header">
             <div class="terminal-header-buttons">
                 <button class="terminal-header-button red"></button>
@@ -289,7 +346,7 @@
     <div id="main-content-display" style="display: none;">
 
         <!-- About Content -->
-        <section id="about-content" class="content-section">
+        <section id="about-content" class="content-section" style="display: none;">
             <pre class="content-pre">About Me - Sumit Roy
 Hi! I'm Sumit Roy, a DevOps & Site Reliability Engineer with 2+ years
 of experience delivering scalable cloud infrastructure and automation
@@ -322,7 +379,7 @@ Phone: 8637061715
         </section>
 
         <!-- Skills Content -->
-        <section id="skills-content" class="content-section">
+        <section id="skills-content" class="content-section" style="display: none;">
             <pre class="content-pre">Technical Skills - Sumit Roy
 ☁️  CLOUD PLATFORMS:
 ▓▓▓▓▓▓▓▓▓░ AWS - EKS, EC2, S3, VPC, RDS, IAM
@@ -358,7 +415,7 @@ Phone: 8637061715
         </section>
 
         <!-- Projects Content -->
-        <section id="projects-content" class="content-section">
+        <section id="projects-content" class="content-section" style="display: none;">
             <pre class="content-pre">Featured Projects - Sumit Roy
 🚀 PROJECT 1: AWS Cost Optimization (Enterprise Search)
 Duration: 4 weeks | Savings: 40% ($6,800/month)
@@ -421,7 +478,7 @@ Type 'contact' to get in touch about these projects!</pre>
         </section>
 
         <!-- Experience Content -->
-        <section id="experience-content" class="content-section">
+        <section id="experience-content" class="content-section" style="display: none;">
             <pre class="content-pre">Professional Experience - Sumit Roy
 🏢 CLOUD SOLUTIONS SPECIALIST | Hyland (Jun 2023 - Nov 2024)
 Location: Kolkata, India
@@ -457,7 +514,7 @@ University of Engineering and Management, Jaipur
         </section>
 
         <!-- Contact Content -->
-        <section id="contact-content" class="content-section">
+        <section id="contact-content" class="content-section" style="display: none;">
             <pre class="content-pre">Contact Information - Sumit Roy
 📧 Email: akashroy644@gmail.com
 📱 Phone: +91 8637061715
@@ -495,163 +552,192 @@ Response Time: Within 24 hours</pre>
     </div>
 
     <script>
-        const terminalOutput = document.getElementById('terminal-output');
-        const terminalInput = document.getElementById('terminal-input');
-        const commandButtons = document.getElementById('command-buttons');
-        const mainContentDisplay = document.getElementById('main-content-display');
-        const prompt = 'sumit@devops-portfolio:~$';
+        document.addEventListener('DOMContentLoaded', function() {
+            const terminalOutput = document.getElementById('terminal-output');
+            const terminalInput = document.getElementById('terminal-input');
+            const commandButtons = document.getElementById('command-buttons');
+            const mainContentDisplay = document.getElementById('main-content-display');
+            const terminalWrapper = document.getElementById('terminal-wrapper'); // New: Get terminal wrapper
+            const contentSections = document.querySelectorAll('.content-section'); // New: Get all content sections
+            const prompt = 'sumit@devops-portfolio:~$';
 
-        let commandHistory = [];
-        let historyIndex = -1;
+            let commandHistory = [];
+            let historyIndex = -1;
 
-        terminalInput.focus();
-
-        function appendToTerminal(htmlContent, isInstant = false) {
-            const div = document.createElement('div');
-            div.innerHTML = htmlContent;
-            div.classList.add('terminal-output-line');
-            terminalOutput.appendChild(div);
-
-            if (isInstant) {
-                setTimeout(() => div.classList.add('fade-in'), 10);
+            // Function to show a specific content section and hide others
+            function showContentSection(sectionId) {
+                terminalWrapper.style.display = 'none'; // Hide the terminal
+                mainContentDisplay.style.display = 'flex'; // Show the main content display
+                contentSections.forEach(section => {
+                    section.style.display = 'none'; // Hide all content sections
+                });
+                document.getElementById(sectionId).style.display = 'flex'; // Show the requested section
+                mainContentDisplay.scrollTop = 0; // Scroll to top of content display
             }
-            terminalOutput.scrollTop = terminalOutput.scrollHeight;
-            div.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }
 
-        function animateText(text, callback) {
-            let i = 0;
-            const div = document.createElement('div');
-            div.classList.add('terminal-output-line');
-            terminalOutput.appendChild(div);
-
-            function type() {
-                if (i < text.length) {
-                    div.innerHTML += text.charAt(i);
-                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
-                    div.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    i++;
-                    setTimeout(type, 15); // Typing speed
-                } else {
-                    div.classList.add('fade-in'); // Ensure fade-in for typed text too
-                    if (callback) callback();
-                }
-            }
-            type();
-        }
-
-        terminalInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                const command = terminalInput.value.trim();
-                if (command) {
-                    appendToTerminal(command + '\n');
-                    handleCommand(command);
-                    commandHistory.push(command);
-                    historyIndex = commandHistory.length; // Reset history index to the end
-                }
-                terminalInput.value = '';
-            } else if (event.key === 'ArrowUp') {
-                event.preventDefault();
-                if (historyIndex > 0) {
-                    historyIndex--;
-                    terminalInput.value = commandHistory[historyIndex];
-                }
-            } else if (event.key === 'ArrowDown') {
-                event.preventDefault();
-                if (historyIndex < commandHistory.length - 1) {
-                    historyIndex++;
-                    terminalInput.value = commandHistory[historyIndex];
-                } else if (historyIndex === commandHistory.length - 1) {
-                    historyIndex++;
-                    terminalInput.value = '';
-                }
-            }
-        });
-
-        function triggerHapticFeedback() {
-            if (navigator.vibrate) {
-                navigator.vibrate(50); // Vibrate for 50ms
-            }
-        }
-
-        commandButtons.addEventListener('click', function(event) {
-            if (event.target.classList.contains('command-button')) {
-                const command = event.target.dataset.command;
-                triggerHapticFeedback(); // Trigger haptic feedback on button click
-                appendToTerminal(prompt + ' ' + command + '\n');
-                handleCommand(command);
-            }
-        });
-
-        function handleCommand(command) {
-            let response = '';
-            let isLongContent = false;
-            switch (command.toLowerCase()) {
-                case 'help':
-                    response = `Available Commands:
-                    help        - Show this help message
-                    about       - Learn about me
-                    skills      - Technical skills & expertise
-                    projects    - View my projects
-                    experience  - Work experience & achievements
-                    contact     - Get in touch
-                    clear       - Clear terminal screen
-                    Pro tip: Click buttons or type commands directly!`;
-                    isLongContent = true;
-                    break;
-                case 'about':
-                    mainContentDisplay.style.display = 'block';
-                    document.getElementById('about-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    response = ''; // No additional response needed for about
-                    break;
-                case 'skills':
-                    mainContentDisplay.style.display = 'block';
-                    document.getElementById('skills-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    response = ''; // No additional response needed for skills
-                    break;
-                case 'projects':
-                    mainContentDisplay.style.display = 'block';
-                    document.getElementById('projects-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    response = ''; // No additional response needed for projects
-                    break;
-                case 'experience':
-                    mainContentDisplay.style.display = 'block';
-                    document.getElementById('experience-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    response = ''; // No additional response needed for experience
-                    break;
-                case 'contact':
-                    mainContentDisplay.style.display = 'block';
-                    document.getElementById('contact-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    response = ''; // No additional response needed for contact
-                    break;
-                case 'clear':
-                    terminalOutput.innerHTML = 'Welcome to my DevOps Portfolio! Type \'help\' to get started.<br>' + prompt;
-                    response = ''; // No additional response needed for clear
-                    break;
-                default:
-                    response = `Command not found: '${command}'. Type 'help' for available commands.`;
-                    break;
-            }
-            if (response) {
-                if (isLongContent) {
-                    appendToTerminal('\n' + response, true);
-                    appendToTerminal('\n' + prompt, true);
-                } else {
-                    animateText(response, () => appendToTerminal('\n' + prompt));
-                }
-            } else {
-                appendToTerminal('\n' + prompt);
-            }
-        }
-
-        // Back to Home functionality
-        document.querySelectorAll('.back-button').forEach(button => {
-            button.addEventListener('click', () => {
-                mainContentDisplay.style.display = 'none';
+            // Function to return to home (terminal) view
+            function returnToHome() {
+                mainContentDisplay.style.display = 'none'; // Hide the main content display
+                terminalWrapper.style.display = 'flex'; // Show the terminal
                 terminalOutput.innerHTML = 'Welcome to my DevOps Portfolio! Type \'help\' to get started.<br>' + prompt;
                 terminalInput.focus();
+                // Hide all content sections when returning to home
+                contentSections.forEach(section => {
+                    section.style.display = 'none';
+                });
+            }
+
+            // Modify appendToTerminal to not auto-scroll if content is on a different "page"
+            function appendToTerminal(htmlContent, isInstant = false) {
+                // Only append to terminal if terminal is visible
+                if (terminalWrapper.style.display === 'none') {
+                    return;
+                }
+
+                const line = document.createElement('div');
+                line.innerHTML = htmlContent;
+                terminalOutput.appendChild(line);
+
+                if (isInstant) {
+                    line.classList.add('fade-in');
+                } else {
+                    // For typing animation, ensure smooth scroll during animation
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+
+            // Modify animateText to only animate if terminal is visible
+            function animateText(text, callback) {
+                if (terminalWrapper.style.display === 'none') {
+                    callback(); // If terminal is hidden, just call callback immediately
+                    return;
+                }
+
+                const line = document.createElement('div');
+                terminalOutput.appendChild(line);
+                let i = 0;
+                const speed = 30; // Typing speed in milliseconds
+
+                const type = () => {
+                    if (i < text.length) {
+                        line.innerHTML += text.charAt(i);
+                        terminalOutput.scrollTop = terminalOutput.scrollHeight; // Scroll to bottom during typing
+                        i++;
+                        setTimeout(type, speed);
+                    } else if (callback) {
+                        callback();
+                    }
+                };
+                type();
+            }
+
+            function handleCommand(command) {
+                let response = '';
+                let isLongContent = false; // Flag to indicate if content should be displayed instantly
+                terminalOutput.classList.remove('fade-in'); // Reset fade-in class
+
+                switch (command) {
+                    case 'help':
+                        response = `Available commands:\n- help: Show this help message\n- about: Learn more about Sumit Roy\n- skills: See Sumit Roy's technical skills\n- projects: Explore Sumit Roy's projects\n- experience: View Sumit Roy's professional experience\n- contact: Get in touch with Sumit Roy\n- clear: Clear the terminal screen\n\nPro Tip: You can also click the buttons below!`;
+                        break;
+                    case 'about':
+                        showContentSection('about-content');
+                        return; // Exit here, content is handled by showContentSection
+                    case 'skills':
+                        showContentSection('skills-content');
+                        return; // Exit here
+                    case 'projects':
+                        showContentSection('projects-content');
+                        return; // Exit here
+                    case 'experience':
+                        showContentSection('experience-content');
+                        return; // Exit here
+                    case 'contact':
+                        showContentSection('contact-content');
+                        return; // Exit here
+                    case 'clear':
+                        terminalOutput.innerHTML = 'Welcome to my DevOps Portfolio! Type \'help\' to get started.<br>' + prompt;
+                        response = ''; // No additional response needed for clear
+                        break;
+                    default:
+                        response = `Command not found: ${command}. Type 'help' for a list of commands.`;
+                }
+
+                // If command has a response, append it to the terminal
+                if (response) {
+                    if (isLongContent || response.length > 100) { // Keep typing animation for short messages
+                        appendToTerminal(response, true); // Use instant display for long content
+                    } else {
+                        animateText(response, () => {
+                            appendToTerminal(prompt, true); // Append prompt instantly after animation
+                        });
+                        return; // Prevent immediate prompt append below
+                    }
+                }
+                appendToTerminal(prompt, true); // Append prompt after command execution
+            }
+
+            // Event listener for terminal input
+            terminalInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent default Enter key behavior (e.g., new line)
+                    const command = terminalInput.value.trim();
+                    if (command) {
+                        appendToTerminal(prompt + command, true); // Show command entered
+                        commandHistory.push(command);
+                        historyIndex = commandHistory.length;
+                        handleCommand(command);
+                        terminalInput.value = '';
+                    }
+                } else if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    if (historyIndex > 0) {
+                        historyIndex--;
+                        terminalInput.value = commandHistory[historyIndex];
+                    }
+                } else if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    if (historyIndex < commandHistory.length - 1) {
+                        historyIndex++;
+                        terminalInput.value = commandHistory[historyIndex];
+                    } else {
+                        historyIndex = commandHistory.length;
+                        terminalInput.value = '';
+                    }
+                }
             });
+
+            // Haptic feedback function
+            function triggerHapticFeedback() {
+                if (navigator.vibrate) {
+                    navigator.vibrate(50); // Vibrate for 50ms
+                }
+            }
+
+            // Event listeners for command buttons
+            commandButtons.querySelectorAll('.command-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    triggerHapticFeedback(); // Trigger haptic feedback
+                    const command = this.dataset.command;
+                    appendToTerminal(prompt + command, true); // Show command in terminal output
+                    commandHistory.push(command);
+                    historyIndex = commandHistory.length;
+                    handleCommand(command);
+                    terminalInput.value = '';
+                });
+            });
+
+            // Event listeners for "Back to Home" buttons
+            document.querySelectorAll('.back-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    triggerHapticFeedback(); // Optional: Haptic feedback for back button
+                    returnToHome();
+                });
+            });
+
+            // Initial focus on terminal input when page loads
+            terminalInput.focus();
         });
     </script>
 </body>
