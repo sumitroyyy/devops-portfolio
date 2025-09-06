@@ -204,6 +204,65 @@
                 font-size: 0.9em;
             }
         }
+
+        /* New styles for main content display */
+        #main-content-display {
+            width: 100%;
+            max-width: 800px;
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px; /* Space above main content */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .content-section {
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .content-pre {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto; /* Allow horizontal scrolling for long content */
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 0.9em;
+            color: #00ff00;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.5;
+        }
+
+        .back-button {
+            background-color: #00ff00;
+            color: #0a0a0a;
+            border: 1px solid #00ff00;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1em;
+            transition: all 0.2s ease;
+            margin-top: 15px;
+        }
+
+        .back-button:hover {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
+        }
     </style>
 </head>
 <body>
@@ -226,6 +285,205 @@
         </div>
     </div>
 
+    <!-- Main Content Display Area (initially hidden) -->
+    <div id="main-content-display" style="display: none;">
+
+        <!-- About Content -->
+        <section id="about-content" class="content-section">
+            <pre class="content-pre">About Me - Sumit Roy
+Hi! I'm Sumit Roy, a DevOps & Site Reliability Engineer with 2+ years
+of experience delivering scalable cloud infrastructure and automation
+solutions.
+🚀 Current Expertise: Cloud Solutions & Kubernetes Orchestration
+📍 Location: Barhampore, Murshidabad, West Bengal
+🎓 Education: MCA from Birla Institute of Applied Sciences
+What I Do:
+
+Design & deploy scalable AWS cloud infrastructure using Terraform
+Kubernetes orchestration with EKS, Helm, and GitOps practices
+CI/CD pipeline automation with Jenkins and ArgoCD
+Cost optimization strategies (achieved 40% AWS cost reduction)
+Production support with 99% uptime maintenance
+Security hardening with RBAC, IRSA, and policy compliance
+
+Recent Achievements:
+
+Reduced deployment delays by 60% through EKS optimization
+Achieved 40% AWS cost savings ($17K → $10.2K monthly)
+Maintained 99% uptime across mission-critical workloads
+Automated 90% of Druid/Memcached lifecycle management
+Zero-downtime RDS MySQL upgrades for ~20 databases
+
+Philosophy: "Automate everything, monitor constantly, deploy fearlessly"
+Email: akashroy644@gmail.com
+Phone: 8637061715
+🌐 LinkedIn: <a href="https://www.linkedin.com/in/sumit-roy-299476150/" target="_blank" style="color: #00bfff; text-decoration: underline;">linkedin</a></pre>
+            <button class="back-button">Back to Home</button>
+        </section>
+
+        <!-- Skills Content -->
+        <section id="skills-content" class="content-section">
+            <pre class="content-pre">Technical Skills - Sumit Roy
+☁️  CLOUD PLATFORMS:
+▓▓▓▓▓▓▓▓▓░ AWS - EKS, EC2, S3, VPC, RDS, IAM
+▓▓▓▓▓░░░░░ GCP
+🐳 CONTAINERIZATION & ORCHESTRATION:
+▓▓▓▓▓▓▓▓▓░ Kubernetes - EKS, Helm, Operators
+▓▓▓▓▓▓▓▓▓░ Docker
+▓▓▓▓▓▓▓░░░ Karpenter
+🔧 CI/CD & GITOPS:
+▓▓▓▓▓▓▓▓░░ Jenkins
+▓▓▓▓▓▓▓▓░░ ArgoCD
+▓▓▓▓▓▓▓░░░ Blue-Green & Canary Deployments
+🏗️  INFRASTRUCTURE AS CODE:
+▓▓▓▓▓▓▓▓▓░ Terraform
+▓▓▓▓▓▓▓▓░░ Terragrunt
+📊 MONITORING & OBSERVABILITY:
+▓▓▓▓▓▓▓▓░░ Prometheus
+▓▓▓▓▓▓▓▓░░ Grafana
+▓▓▓▓▓▓▓░░░ ELK Stack
+▓▓▓▓▓▓▓░░░ PagerDuty
+🔒 SECURITY & COMPLIANCE:
+▓▓▓▓▓▓▓░░░ RBAC, IRSA, PSA/PSS
+▓▓▓▓▓▓░░░░ Kubeaudit, Kyverno
+▓▓▓▓▓▓░░░░ SonarQube, Trivy
+💻 PROGRAMMING & SCRIPTING:
+▓▓▓▓▓▓▓▓░░ Python - Boto3
+▓▓▓▓▓▓▓░░░ Go - Kubernetes Operators
+▓▓▓▓▓▓▓▓▓░ YAML
+🌐 SERVICE MESH & NETWORKING:
+▓▓▓▓▓▓▓░░░ Istio Service Mesh
+▓▓▓▓▓▓▓░░░ Nginx, Kong API Gateway</pre>
+            <button class="back-button">Back to Home</button>
+        </section>
+
+        <!-- Projects Content -->
+        <section id="projects-content" class="content-section">
+            <pre class="content-pre">Featured Projects - Sumit Roy
+🚀 PROJECT 1: AWS Cost Optimization (Enterprise Search)
+Duration: 4 weeks | Savings: 40% ($6,800/month)
+Challenge: High AWS spending ($17K/month) with underutilized resources
+Solution:
+• Audited EC2 workloads via AWS Cost Explorer & CloudWatch
+• Migrated Intel instances to AMD/Graviton2 for better price-performance
+• Optimized storage: GP2 → GP3 volumes for cost efficiency
+• Automated idle resource cleanup using Python (Boto3)
+• Migrated monitoring: CloudWatch → Prometheus/Grafana
+Results:
+✅ 40% cost reduction in 4 weeks
+✅ Automated resource management
+✅ Improved monitoring efficiency
+Tech Stack: AWS, Python, Boto3, Prometheus, Grafana
+🏗️  PROJECT 2: National Health Authority Infrastructure
+Duration: 6 months | Impact: 50% faster provisioning
+Challenge: Build secure, scalable infrastructure for government health system
+Solution:
+• Designed AWS infrastructure using Terraform & Terragrunt
+• Implemented VPCs, NAT gateways, Transit Gateway architecture
+• Configured site-to-site VPN & AWS PrivateLink for security
+• Deployed EKS with multi-AZ node groups and Helm charts
+• Built Go-based Kubernetes Operators for lifecycle automation
+Results:
+✅ 50% reduction in provisioning time
+✅ 90% automation of application lifecycle
+✅ Enhanced security with VPN & PrivateLink
+Tech Stack: Terraform, AWS EKS, Go, Kubernetes, Helm
+🐳 PROJECT 3: Kubernetes Migration & Service Mesh
+Duration: 1 months | Impact: 60% deployment improvement
+Challenge: Migrate legacy VM applications to cloud-native architecture
+Solution:
+• Containerized legacy applications using Docker
+• Implemented Istio service mesh for unified communication
+• Set up blue-green & canary deployment strategies
+• Integrated HPA, VPA & Karpenter for autoscaling
+• Implemented comprehensive monitoring with SLIs/SLOs
+Results:
+✅ 60% faster deployments
+✅ 30% compute cost savings through autoscaling
+✅ Zero critical security vulnerabilities
+Tech Stack: Kubernetes, Docker, Istio, ArgoCD, Prometheus
+📊 PROJECT 4: Observability & Monitoring Stack
+Duration: 2 months | Impact: 40% downtime reduction
+Challenge: Poor visibility into application performance and incidents
+Solution:
+• Designed comprehensive observability strategy
+• Deployed Prometheus for metrics collection
+• Built custom Grafana dashboards with SLIs/SLOs
+• Integrated PagerDuty for intelligent alerting
+• Implemented distributed tracing for microservices
+Results:
+✅ 40% reduction in downtime
+✅ 30% faster incident response
+✅ Proactive issue detection
+Tech Stack: Prometheus, Grafana, PagerDuty, ELK Stack
+Type 'contact' to get in touch about these projects!</pre>
+            <button class="back-button">Back to Home</button>
+        </section>
+
+        <!-- Experience Content -->
+        <section id="experience-content" class="content-section">
+            <pre class="content-pre">Professional Experience - Sumit Roy
+🏢 CLOUD SOLUTIONS SPECIALIST | Hyland (Jun 2023 - Nov 2024)
+Location: Kolkata, India
+Key Achievements:
+• Resolved EKS pod scheduling issues, reducing delays by 60%
+• Migrated legacy VMs to Kubernetes with Istio service mesh
+• Hardened K8s clusters - zero critical CVEs achieved
+• Implemented observability with 40% downtime reduction
+• Led production support maintaining 99% uptime
+• Executed zero-downtime MySQL upgrades for ~20 RDS instances
+Major Project - AWS Cost Optimization:
+• Reduced monthly AWS spend from $17,000 to $10,200 (40% savings)
+• Migrated Intel to AMD/Graviton2 instances
+• Automated idle resource cleanup using Python/Boto3
+• Shifted monitoring from CloudWatch to Prometheus/Grafana
+🏢 DEVOPS ENGINEER | Texple Technologies (Nov 2022 - May 2023)
+Location: Mumbai, India
+Project: National Health Authority (NHA)
+• Built secure AWS infrastructure using Terraform/Terragrunt
+• Configured site-to-site VPN and AWS PrivateLink
+• Maintained EKS cluster with security hardening
+• Developed Go-based Kubernetes Operators
+• Automated 90% of Druid/Memcached lifecycle management
+🎓 EDUCATION:
+• Master of Computer Application (2020-2022)
+Birla Institute of Applied Sciences, Uttarakhand
+• Bachelor of Computer Application (2016-2019)
+University of Engineering and Management, Jaipur
+🏆 AWARDS & CERTIFICATIONS:
+• 2023 Rising Star DevOps Engineer - Texple Technologies
+• Introduction to Cybersecurity - Cisco Networking Academy</pre>
+            <button class="back-button">Back to Home</button>
+        </section>
+
+        <!-- Contact Content -->
+        <section id="contact-content" class="content-section">
+            <pre class="content-pre">Contact Information - Sumit Roy
+📧 Email: akashroy644@gmail.com
+📱 Phone: +91 8637061715
+📍 Location: Barhampore, Murshidabad, West Bengal, India
+🌐 Professional Links:
+• <a href="https://www.linkedin.com/in/sumit-roy-299476150/" target="_blank" style="color: #00bfff; text-decoration: underline;">LinkedIn</a>
+
+💼 COLLABORATION OPPORTUNITIES:
+✅ DevOps Consulting & Architecture Reviews
+✅ Cloud Migration & Modernization Projects
+✅ Cost Optimization & FinOps Implementation
+✅ Kubernetes Training & Mentoring
+✅ Infrastructure Automation Solutions
+🎯 CURRENT STATUS:
+🟢 Available for exciting DevOps/SRE opportunities
+🟢 Open to contract/consulting engagements
+🟢 Passionate about Platform Engineering roles
+📄 Resume: Available for download
+🤝 Let's connect for DevOps discussions and opportunities!
+Preferred Contact: Email for fastest response
+Response Time: Within 24 hours</pre>
+            <button class="back-button">Back to Home</button>
+        </section>
+
+    </div>
+
     <div class="command-buttons" id="command-buttons">
         <button class="command-button" data-command="help">help</button>
         <button class="command-button" data-command="about">about</button>
@@ -240,6 +498,7 @@
         const terminalOutput = document.getElementById('terminal-output');
         const terminalInput = document.getElementById('terminal-input');
         const commandButtons = document.getElementById('command-buttons');
+        const mainContentDisplay = document.getElementById('main-content-display');
         const prompt = 'sumit@devops-portfolio:~$';
 
         let commandHistory = [];
@@ -342,192 +601,33 @@
                     isLongContent = true;
                     break;
                 case 'about':
-                    response = `About Me - Sumit Roy
-Hi! I'm Sumit Roy, a DevOps & Site Reliability Engineer with 2+ years
-of experience delivering scalable cloud infrastructure and automation
-solutions.
-🚀 Current Expertise: Cloud Solutions & Kubernetes Orchestration
-📍 Location: Barhampore, Murshidabad, West Bengal
-🎓 Education: MCA from Birla Institute of Applied Sciences
-What I Do:
-
-Design & deploy scalable AWS cloud infrastructure using Terraform
-Kubernetes orchestration with EKS, Helm, and GitOps practices
-CI/CD pipeline automation with Jenkins and ArgoCD
-Cost optimization strategies (achieved 40% AWS cost reduction)
-Production support with 99% uptime maintenance
-Security hardening with RBAC, IRSA, and policy compliance
-
-Recent Achievements:
-
-Reduced deployment delays by 60% through EKS optimization
-Achieved 40% AWS cost savings ($17K → $10.2K monthly)
-Maintained 99% uptime across mission-critical workloads
-Automated 90% of Druid/Memcached lifecycle management
-Zero-downtime RDS MySQL upgrades for ~20 databases
-
-Philosophy: "Automate everything, monitor constantly, deploy fearlessly"
-Email: akashroy644@gmail.com
-Phone: 8637061715
-🌐 LinkedIn: <a href="https://www.linkedin.com/in/sumit-roy-299476150/" target="_blank" style="color: #00bfff; text-decoration: underline;">linkedin</a>`;
-                    isLongContent = true;
+                    mainContentDisplay.style.display = 'block';
+                    document.getElementById('about-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    response = ''; // No additional response needed for about
+                    break;
+                case 'skills':
+                    mainContentDisplay.style.display = 'block';
+                    document.getElementById('skills-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    response = ''; // No additional response needed for skills
+                    break;
+                case 'projects':
+                    mainContentDisplay.style.display = 'block';
+                    document.getElementById('projects-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    response = ''; // No additional response needed for projects
+                    break;
+                case 'experience':
+                    mainContentDisplay.style.display = 'block';
+                    document.getElementById('experience-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    response = ''; // No additional response needed for experience
+                    break;
+                case 'contact':
+                    mainContentDisplay.style.display = 'block';
+                    document.getElementById('contact-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    response = ''; // No additional response needed for contact
                     break;
                 case 'clear':
                     terminalOutput.innerHTML = 'Welcome to my DevOps Portfolio! Type \'help\' to get started.<br>' + prompt;
                     response = ''; // No additional response needed for clear
-                    break;
-                case 'skills':
-                    response = `Technical Skills - Sumit Roy
-☁️  CLOUD PLATFORMS:
-▓▓▓▓▓▓▓▓▓░ AWS - EKS, EC2, S3, VPC, RDS, IAM
-▓▓▓▓▓░░░░░ GCP
-🐳 CONTAINERIZATION & ORCHESTRATION:
-▓▓▓▓▓▓▓▓▓░ Kubernetes - EKS, Helm, Operators
-▓▓▓▓▓▓▓▓▓░ Docker
-▓▓▓▓▓▓▓░░░ Karpenter
-🔧 CI/CD & GITOPS:
-▓▓▓▓▓▓▓▓░░ Jenkins
-▓▓▓▓▓▓▓▓░░ ArgoCD
-▓▓▓▓▓▓▓░░░ Blue-Green & Canary Deployments
-🏗️  INFRASTRUCTURE AS CODE:
-▓▓▓▓▓▓▓▓▓░ Terraform
-▓▓▓▓▓▓▓▓░░ Terragrunt
-📊 MONITORING & OBSERVABILITY:
-▓▓▓▓▓▓▓▓░░ Prometheus
-▓▓▓▓▓▓▓▓░░ Grafana
-▓▓▓▓▓▓▓░░░ ELK Stack
-▓▓▓▓▓▓▓░░░ PagerDuty
-🔒 SECURITY & COMPLIANCE:
-▓▓▓▓▓▓▓░░░ RBAC, IRSA, PSA/PSS
-▓▓▓▓▓▓░░░░ Kubeaudit, Kyverno
-▓▓▓▓▓▓░░░░ SonarQube, Trivy
-💻 PROGRAMMING & SCRIPTING:
-▓▓▓▓▓▓▓▓░░ Python - Boto3
-▓▓▓▓▓▓▓░░░ Go - Kubernetes Operators
-▓▓▓▓▓▓▓▓▓░ YAML
-🌐 SERVICE MESH & NETWORKING:
-▓▓▓▓▓▓▓░░░ Istio Service Mesh
-▓▓▓▓▓▓▓░░░ Nginx, Kong API Gateway`;
-                    isLongContent = true;
-                    break;
-                case 'projects':
-                    response = `Featured Projects - Sumit Roy
-🚀 PROJECT 1: AWS Cost Optimization (Enterprise Search)
-Duration: 4 weeks | Savings: 40% ($6,800/month)
-Challenge: High AWS spending ($17K/month) with underutilized resources
-Solution:
-• Audited EC2 workloads via AWS Cost Explorer & CloudWatch
-• Migrated Intel instances to AMD/Graviton2 for better price-performance
-• Optimized storage: GP2 → GP3 volumes for cost efficiency
-• Automated idle resource cleanup using Python (Boto3)
-• Migrated monitoring: CloudWatch → Prometheus/Grafana
-Results:
-✅ 40% cost reduction in 4 weeks
-✅ Automated resource management
-✅ Improved monitoring efficiency
-Tech Stack: AWS, Python, Boto3, Prometheus, Grafana
-🏗️  PROJECT 2: National Health Authority Infrastructure
-Duration: 6 months | Impact: 50% faster provisioning
-Challenge: Build secure, scalable infrastructure for government health system
-Solution:
-• Designed AWS infrastructure using Terraform & Terragrunt
-• Implemented VPCs, NAT gateways, Transit Gateway architecture
-• Configured site-to-site VPN & AWS PrivateLink for security
-• Deployed EKS with multi-AZ node groups and Helm charts
-• Built Go-based Kubernetes Operators for lifecycle automation
-Results:
-✅ 50% reduction in provisioning time
-✅ 90% automation of application lifecycle
-✅ Enhanced security with VPN & PrivateLink
-Tech Stack: Terraform, AWS EKS, Go, Kubernetes, Helm
-🐳 PROJECT 3: Kubernetes Migration & Service Mesh
-Duration: 1 months | Impact: 60% deployment improvement
-Challenge: Migrate legacy VM applications to cloud-native architecture
-Solution:
-• Containerized legacy applications using Docker
-• Implemented Istio service mesh for unified communication
-• Set up blue-green & canary deployment strategies
-• Integrated HPA, VPA & Karpenter for autoscaling
-• Implemented comprehensive monitoring with SLIs/SLOs
-Results:
-✅ 60% faster deployments
-✅ 30% compute cost savings through autoscaling
-✅ Zero critical security vulnerabilities
-Tech Stack: Kubernetes, Docker, Istio, ArgoCD, Prometheus
-📊 PROJECT 4: Observability & Monitoring Stack
-Duration: 2 months | Impact: 40% downtime reduction
-Challenge: Poor visibility into application performance and incidents
-Solution:
-• Designed comprehensive observability strategy
-• Deployed Prometheus for metrics collection
-• Built custom Grafana dashboards with SLIs/SLOs
-• Integrated PagerDuty for intelligent alerting
-• Implemented distributed tracing for microservices
-Results:
-✅ 40% reduction in downtime
-✅ 30% faster incident response
-✅ Proactive issue detection
-Tech Stack: Prometheus, Grafana, PagerDuty, ELK Stack
-Type 'contact' to get in touch about these projects!`;
-                    isLongContent = true;
-                    break;
-                case 'experience':
-                    response = `Professional Experience - Sumit Roy
-🏢 CLOUD SOLUTIONS SPECIALIST | Hyland (Jun 2023 - Nov 2024)
-Location: Kolkata, India
-Key Achievements:
-• Resolved EKS pod scheduling issues, reducing delays by 60%
-• Migrated legacy VMs to Kubernetes with Istio service mesh
-• Hardened K8s clusters - zero critical CVEs achieved
-• Implemented observability with 40% downtime reduction
-• Led production support maintaining 99% uptime
-• Executed zero-downtime MySQL upgrades for ~20 RDS instances
-Major Project - AWS Cost Optimization:
-• Reduced monthly AWS spend from $17,000 to $10,200 (40% savings)
-• Migrated Intel to AMD/Graviton2 instances
-• Automated cleanup of idle resources using Python/Boto3
-• Shifted monitoring from CloudWatch to Prometheus/Grafana
-🏢 DEVOPS ENGINEER | Texple Technologies (Nov 2022 - May 2023)
-Location: Mumbai, India
-Project: National Health Authority (NHA)
-• Built secure AWS infrastructure using Terraform/Terragrunt
-• Configured site-to-site VPN and AWS PrivateLink
-• Maintained EKS cluster with security hardening
-• Developed Go-based Kubernetes Operators
-• Automated 90% of Druid/Memcached lifecycle management
-🎓 EDUCATION:
-• Master of Computer Application (2020-2022)
-Birla Institute of Applied Sciences, Uttarakhand
-• Bachelor of Computer Application (2016-2019)
-University of Engineering and Management, Jaipur
-🏆 AWARDS & CERTIFICATIONS:
-• 2023 Rising Star DevOps Engineer - Texple Technologies
-• Introduction to Cybersecurity - Cisco Networking Academy`;
-                    isLongContent = true;
-                    break;
-                case 'contact':
-                    response = `Contact Information - Sumit Roy
-📧 Email: akashroy644@gmail.com
-📱 Phone: +91 8637061715
-📍 Location: Barhampore, Murshidabad, West Bengal, India
-🌐 Professional Links:
-• <a href="https://www.linkedin.com/in/sumit-roy-299476150/" target="_blank" style="color: #00bfff; text-decoration: underline;">LinkedIn</a>
-
-💼 COLLABORATION OPPORTUNITIES:
-✅ DevOps Consulting & Architecture Reviews
-✅ Cloud Migration & Modernization Projects
-✅ Cost Optimization & FinOps Implementation
-✅ Kubernetes Training & Mentoring
-✅ Infrastructure Automation Solutions
-🎯 CURRENT STATUS:
-🟢 Available for exciting DevOps/SRE opportunities
-🟢 Open to contract/consulting engagements
-🟢 Passionate about Platform Engineering roles
-📄 Resume: Available for download
-🤝 Let's connect for DevOps discussions and opportunities!
-Preferred Contact: Email for fastest response
-Response Time: Within 24 hours`;
-                    isLongContent = true;
                     break;
                 default:
                     response = `Command not found: '${command}'. Type 'help' for available commands.`;
@@ -544,6 +644,15 @@ Response Time: Within 24 hours`;
                 appendToTerminal('\n' + prompt);
             }
         }
+
+        // Back to Home functionality
+        document.querySelectorAll('.back-button').forEach(button => {
+            button.addEventListener('click', () => {
+                mainContentDisplay.style.display = 'none';
+                terminalOutput.innerHTML = 'Welcome to my DevOps Portfolio! Type \'help\' to get started.<br>' + prompt;
+                terminalInput.focus();
+            });
+        });
     </script>
 </body>
 </html>
