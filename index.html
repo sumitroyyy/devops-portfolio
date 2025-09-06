@@ -19,6 +19,13 @@
             box-sizing: border-box;
         }
 
+        /* Mobile improvements for body padding */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px; /* Reduce padding on very small screens */
+            }
+        }
+
         .terminal-wrapper {
             width: 100%;
             max-width: 800px;
@@ -175,6 +182,7 @@
             }
             .terminal-body {
                 max-height: 50vh;
+                font-size: 0.9em; /* Slightly reduce font size for better fit on small screens */
             }
         }
     </style>
