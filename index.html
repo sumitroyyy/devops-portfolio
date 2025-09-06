@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .terminal-wrapper {
+            width: 100%;
+            max-width: 800px;
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px; /* Space between terminal and buttons */
+        }
+
+        .terminal-header {
+            background-color: #333;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #00ff00;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .terminal-header-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .terminal-header-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+        }
+
+        .terminal-header-button.red { background-color: #ff5f56; }
+        .terminal-header-button.yellow { background-color: #ffbd2e; }
+        .terminal-header-button.green { background-color: #27c93f; }
+
+        .terminal-title {
+            flex-grow: 1;
+            text-align: center;
+            color: #eee;
+            font-size: 0.9em;
+        }
+
+        .terminal-body {
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 60vh;
+            white-space: pre-wrap;
+            word-break: break-all;
+            flex-grow: 1;
+        }
+
+        .terminal-output-line {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+            display: block; /* Ensures each line is on its own block for fade-in */
+        }
+
+        .terminal-output-line.fade-in {
+            opacity: 1;
+        }
+
+        /* Style for the LinkedIn hyperlink */
+        .terminal-body a {
+            color: #00bfff; /* Bright blue for links */
+            text-decoration: underline;
+        }
+
+        .terminal-body a:hover {
+            color: #00e0ff; /* Slightly lighter blue on hover */
+        }
+
+        .terminal-input-area {
+            display: flex;
+            padding: 10px 15px;
+            border-top: 1px solid #00ff00;
+        }
+
+        .terminal-prompt {
+            color: #00ff00;
+            margin-right: 5px;
+        }
+
+        .terminal-input {
+            background: none;
+            border: none;
+            color: #00ff00;
+            flex-grow: 1;
+            caret-color: transparent; /* Hide default caret */
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1em;
+            position: relative;
+        }
+
+        .terminal-input:focus {
+            outline: none;
+        }
+
+        /* Green blinking cursor animation */
+        .terminal-input:focus::after {
+            content: '|';
+            color: #00ff00;
+            animation: blink-caret 1s infinite;
+            position: absolute;
+            right: 0;
+        }
+
+        @keyframes blink-caret {
+            from, to { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .command-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .command-button {
+            background-color: #00ff00;
+            color: #0a0a0a;
+            border: 1px solid #00ff00;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1em;
+            transition: all 0.2s ease;
+        }
+
+        .command-button:hover {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .command-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .command-buttons {
+                grid-template-columns: 1fr;
+            }
+            .terminal-body {
+                max-height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-wrapper">
+        <div class="terminal-header">
+            <div class="terminal-header-buttons">
+                <button class="terminal-header-button red"></button>
+                <button class="terminal-header-button yellow"></button>
+                <button class="terminal-header-button green"></button>
+            </div>
+            <div class="terminal-title">sumit@devops-portfolio:~$</div>
+        </div>
+        <div class="terminal-body" id="terminal-output">
+            Welcome to my DevOps Portfolio! Type 'help' to get started.<br>
+            sumit@devops-portfolio:~$
+        </div>
+        <div class="terminal-input-area">
+            <span class="terminal-prompt">sumit@devops-portfolio:~$</span>
+            <input type="text" class="terminal-input" id="terminal-input" autofocus>
+        </div>
+    </div>
+
+    <div class="command-buttons" id="command-buttons">
+        <button class="command-button" data-command="help">help</button>
+        <button class="command-button" data-command="about">about</button>
+        <button class="command-button" data-command="skills">skills</button>
+        <button class="command-button" data-command="projects">projects</button>
+        <button class="command-button" data-command="experience">experience</button>
+        <button class="command-button" data-command="contact">contact</button>
+        <button class="command-button" data-command="clear">clear</button>
+    </div>
+
+    <script>
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalInput = document.getElementById('terminal-input');
+        const commandButtons = document.getElementById('command-buttons');
+        const prompt = 'sumit@devops-portfolio:~$';
+
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        terminalInput.focus();
+
+        function appendToTerminal(htmlContent, isInstant = false) {
+            const div = document.createElement('div');
+            div.innerHTML = htmlContent;
+            div.classList.add('terminal-output-line');
+            terminalOutput.appendChild(div);
+
+            if (isInstant) {
+                setTimeout(() => div.classList.add('fade-in'), 10);
+            }
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+
+        function animateText(text, callback) {
+            let i = 0;
+            const div = document.createElement('div');
+            div.classList.add('terminal-output-line');
+            terminalOutput.appendChild(div);
+
+            function type() {
+                if (i < text.length) {
+                    div.innerHTML += text.charAt(i);
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                    div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    i++;
+                    setTimeout(type, 15); // Typing speed
+                } else {
+                    div.classList.add('fade-in'); // Ensure fade-in for typed text too
+                    if (callback) callback();
+                }
+            }
+            type();
+        }
+
+        terminalInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const command = terminalInput.value.trim();
+                if (command) {
+                    appendToTerminal(command + '\n');
+                    handleCommand(command);
+                    commandHistory.push(command);
+                    historyIndex = commandHistory.length; // Reset history index to the end
+                }
+                terminalInput.value = '';
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    terminalInput.value = commandHistory[historyIndex];
+                }
+            } else if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    terminalInput.value = commandHistory[historyIndex];
+                } else if (historyIndex === commandHistory.length - 1) {
+                    historyIndex++;
+                    terminalInput.value = '';
+                }
+            }
+        });
+
+        function triggerHapticFeedback() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Vibrate for 50ms
+            }
+        }
+
+        commandButtons.addEventListener('click', function(event) {
+            if (event.target.classList.contains('command-button')) {
+                const command = event.target.dataset.command;
+                triggerHapticFeedback(); // Trigger haptic feedback on button click
+                appendToTerminal(prompt + ' ' + command + '\n');
+                handleCommand(command);
+            }
+        });
+
+        function handleCommand(command) {
+            let response = '';
+            let isLongContent = false;
+            switch (command.toLowerCase()) {
+                case 'help':
+                    response = `Available Commands:
+                    help        - Show this help message
+                    about       - Learn about me
+                    skills      - Technical skills & expertise
+                    projects    - View my projects
+                    experience  - Work experience & achievements
+                    contact     - Get in touch
+                    clear       - Clear terminal screen
+                    Pro tip: Click buttons or type commands directly!`;
+                    isLongContent = true;
+                    break;
+                case 'about':
+                    response = `About Me - Sumit Roy
+Hi! I'm Sumit Roy, a DevOps & Site Reliability Engineer with 2+ years
+of experience delivering scalable cloud infrastructure and automation
+solutions.
+🚀 Current Expertise: Cloud Solutions & Kubernetes Orchestration
+📍 Location: Barhampore, Murshidabad, West Bengal
+🎓 Education: MCA from Birla Institute of Applied Sciences
+What I Do:
+
+Design & deploy scalable AWS cloud infrastructure using Terraform
+Kubernetes orchestration with EKS, Helm, and GitOps practices
+CI/CD pipeline automation with Jenkins and ArgoCD
+Cost optimization strategies (achieved 40% AWS cost reduction)
+Production support with 99% uptime maintenance
+Security hardening with RBAC, IRSA, and policy compliance
+
+Recent Achievements:
+
+Reduced deployment delays by 60% through EKS optimization
+Achieved 40% AWS cost savings ($17K → $10.2K monthly)
+Maintained 99% uptime across mission-critical workloads
+Automated 90% of Druid/Memcached lifecycle management
+Zero-downtime RDS MySQL upgrades for ~20 databases
+
+Philosophy: "Automate everything, monitor constantly, deploy fearlessly"
+Email: akashroy644@gmail.com
+Phone: 8637061715
+🌐 LinkedIn: <a href="https://www.linkedin.com/in/sumit-roy-299476150/" target="_blank" style="color: #00bfff; text-decoration: underline;">linkedin</a>`;
+                    isLongContent = true;
+                    break;
+                case 'clear':
+                    terminalOutput.innerHTML = 'Welcome to my DevOps Portfolio! Type \'help\' to get started.<br>' + prompt;
+                    response = ''; // No additional response needed for clear
+                    break;
+                case 'skills':
+                    response = `Technical Skills - Sumit Roy
+☁️  CLOUD PLATFORMS:
+▓▓▓▓▓▓▓▓▓░ AWS - EKS, EC2, S3, VPC, RDS, IAM
+▓▓▓▓▓░░░░░ GCP
+🐳 CONTAINERIZATION & ORCHESTRATION:
+▓▓▓▓▓▓▓▓▓░ Kubernetes - EKS, Helm, Operators
+▓▓▓▓▓▓▓▓▓░ Docker
+▓▓▓▓▓▓▓░░░ Karpenter
+🔧 CI/CD & GITOPS:
+▓▓▓▓▓▓▓▓░░ Jenkins
+▓▓▓▓▓▓▓▓░░ ArgoCD
+▓▓▓▓▓▓▓░░░ Blue-Green & Canary Deployments
+🏗️  INFRASTRUCTURE AS CODE:
+▓▓▓▓▓▓▓▓▓░ Terraform
+▓▓▓▓▓▓▓▓░░ Terragrunt
+📊 MONITORING & OBSERVABILITY:
+▓▓▓▓▓▓▓▓░░ Prometheus
+▓▓▓▓▓▓▓▓░░ Grafana
+▓▓▓▓▓▓▓░░░ ELK Stack
+▓▓▓▓▓▓▓░░░ PagerDuty
+🔒 SECURITY & COMPLIANCE:
+▓▓▓▓▓▓▓░░░ RBAC, IRSA, PSA/PSS
+▓▓▓▓▓▓░░░░ Kubeaudit, Kyverno
+▓▓▓▓▓▓░░░░ SonarQube, Trivy
+💻 PROGRAMMING & SCRIPTING:
+▓▓▓▓▓▓▓▓░░ Python - Boto3
+▓▓▓▓▓▓▓░░░ Go - Kubernetes Operators
+▓▓▓▓▓▓▓▓▓░ YAML
+🌐 SERVICE MESH & NETWORKING:
+▓▓▓▓▓▓▓░░░ Istio Service Mesh
+▓▓▓▓▓▓▓░░░ Nginx, Kong API Gateway`;
+                    isLongContent = true;
+                    break;
+                case 'projects':
+                    response = `Featured Projects - Sumit Roy
+🚀 PROJECT 1: AWS Cost Optimization (Enterprise Search)
+Duration: 4 weeks | Savings: 40% ($6,800/month)
+Challenge: High AWS spending ($17K/month) with underutilized resources
+Solution:
+• Audited EC2 workloads via AWS Cost Explorer & CloudWatch
+• Migrated Intel instances to AMD/Graviton2 for better price-performance
+• Optimized storage: GP2 → GP3 volumes for cost efficiency
+• Automated idle resource cleanup using Python (Boto3)
+• Migrated monitoring: CloudWatch → Prometheus/Grafana
+Results:
+✅ 40% cost reduction in 4 weeks
+✅ Automated resource management
+✅ Improved monitoring efficiency
+Tech Stack: AWS, Python, Boto3, Prometheus, Grafana
+🏗️  PROJECT 2: National Health Authority Infrastructure
+Duration: 6 months | Impact: 50% faster provisioning
+Challenge: Build secure, scalable infrastructure for government health system
+Solution:
+• Designed AWS infrastructure using Terraform & Terragrunt
+• Implemented VPCs, NAT gateways, Transit Gateway architecture
+• Configured site-to-site VPN & AWS PrivateLink for security
+• Deployed EKS with multi-AZ node groups and Helm charts
+• Built Go-based Kubernetes Operators for lifecycle automation
+Results:
+✅ 50% reduction in provisioning time
+✅ 90% automation of application lifecycle
+✅ Enhanced security with VPN & PrivateLink
+Tech Stack: Terraform, AWS EKS, Go, Kubernetes, Helm
+🐳 PROJECT 3: Kubernetes Migration & Service Mesh
+Duration: 1 months | Impact: 60% deployment improvement
+Challenge: Migrate legacy VM applications to cloud-native architecture
+Solution:
+• Containerized legacy applications using Docker
+• Implemented Istio service mesh for unified communication
+• Set up blue-green & canary deployment strategies
+• Integrated HPA, VPA & Karpenter for autoscaling
+• Implemented comprehensive monitoring with SLIs/SLOs
+Results:
+✅ 60% faster deployments
+✅ 30% compute cost savings through autoscaling
+✅ Zero critical security vulnerabilities
+Tech Stack: Kubernetes, Docker, Istio, ArgoCD, Prometheus
+📊 PROJECT 4: Observability & Monitoring Stack
+Duration: 2 months | Impact: 40% downtime reduction
+Challenge: Poor visibility into application performance and incidents
+Solution:
+• Designed comprehensive observability strategy
+• Deployed Prometheus for metrics collection
+• Built custom Grafana dashboards with SLIs/SLOs
+• Integrated PagerDuty for intelligent alerting
+• Implemented distributed tracing for microservices
+Results:
+✅ 40% reduction in downtime
+✅ 30% faster incident response
+✅ Proactive issue detection
+Tech Stack: Prometheus, Grafana, PagerDuty, ELK Stack
+Type 'contact' to get in touch about these projects!`;
+                    isLongContent = true;
+                    break;
+                case 'experience':
+                    response = `Professional Experience - Sumit Roy
+🏢 CLOUD SOLUTIONS SPECIALIST | Hyland (Jun 2023 - Nov 2024)
+Location: Kolkata, India
+Key Achievements:
+• Resolved EKS pod scheduling issues, reducing delays by 60%
+• Migrated legacy VMs to Kubernetes with Istio service mesh
+• Hardened K8s clusters - zero critical CVEs achieved
+• Implemented observability with 40% downtime reduction
+• Led production support maintaining 99% uptime
+• Executed zero-downtime MySQL upgrades for ~20 RDS instances
+Major Project - AWS Cost Optimization:
+• Reduced monthly AWS spend from $17,000 to $10,200 (40% savings)
+• Migrated Intel to AMD/Graviton2 instances
+• Automated cleanup of idle resources using Python/Boto3
+• Shifted monitoring from CloudWatch to Prometheus/Grafana
+🏢 DEVOPS ENGINEER | Texple Technologies (Nov 2022 - May 2023)
+Location: Mumbai, India
+Project: National Health Authority (NHA)
+• Built secure AWS infrastructure using Terraform/Terragrunt
+• Configured site-to-site VPN and AWS PrivateLink
+• Maintained EKS cluster with security hardening
+• Developed Go-based Kubernetes Operators
+• Automated 90% of Druid/Memcached lifecycle management
+🎓 EDUCATION:
+• Master of Computer Application (2020-2022)
+Birla Institute of Applied Sciences, Uttarakhand
+• Bachelor of Computer Application (2016-2019)
+University of Engineering and Management, Jaipur
+🏆 AWARDS & CERTIFICATIONS:
+• 2023 Rising Star DevOps Engineer - Texple Technologies
+• Introduction to Cybersecurity - Cisco Networking Academy`;
+                    isLongContent = true;
+                    break;
+                case 'contact':
+                    response = `Contact Information - Sumit Roy
+📧 Email: akashroy644@gmail.com
+📱 Phone: +91 8637061715
+📍 Location: Barhampore, Murshidabad, West Bengal, India
+🌐 Professional Links:
+• <a href="https://www.linkedin.com/in/sumit-roy-299476150/" target="_blank" style="color: #00bfff; text-decoration: underline;">LinkedIn</a>
+
+💼 COLLABORATION OPPORTUNITIES:
+✅ DevOps Consulting & Architecture Reviews
+✅ Cloud Migration & Modernization Projects
+✅ Cost Optimization & FinOps Implementation
+✅ Kubernetes Training & Mentoring
+✅ Infrastructure Automation Solutions
+🎯 CURRENT STATUS:
+🟢 Available for exciting DevOps/SRE opportunities
+🟢 Open to contract/consulting engagements
+🟢 Passionate about Platform Engineering roles
+📄 Resume: Available for download
+🤝 Let's connect for DevOps discussions and opportunities!
+Preferred Contact: Email for fastest response
+Response Time: Within 24 hours`;
+                    isLongContent = true;
+                    break;
+                default:
+                    response = `Command not found: '${command}'. Type 'help' for available commands.`;
+                    break;
+            }
+            if (response) {
+                if (isLongContent) {
+                    appendToTerminal('\n' + response, true);
+                    appendToTerminal('\n' + prompt, true);
+                } else {
+                    animateText(response, () => appendToTerminal('\n' + prompt));
+                }
+            } else {
+                appendToTerminal('\n' + prompt);
+            }
+        }
+    </script>
+</body>
+</html>
