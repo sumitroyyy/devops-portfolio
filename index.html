@@ -15,10 +15,11 @@
             justify-content: space-between; /* Pushes buttons to bottom */
             align-items: center;
             min-height: 100vh;
+            height: 100vh; /* Ensure body takes full viewport height */
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            overflow-y: auto; /* Allow scrolling for the entire body */
+            overflow: hidden; /* Control overflow at the body level for page switching */
         }
 
         /* Mobile improvements for body padding */
@@ -40,6 +41,7 @@
             background-color: #0a0a0a;
             display: flex;
             flex-direction: column;
+            flex-grow: 1; /* Allow terminal to grow and fill available space */
             margin-bottom: 20px; /* Space between terminal and buttons */
         }
 
@@ -164,7 +166,7 @@
 
         /* Command buttons styling */
         .command-buttons {
-            /* display: grid; */ /* Removed to be controlled by JavaScript */
+            display: none; /* Initially hidden, controlled by JavaScript */
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             width: 100%;
@@ -203,7 +205,8 @@
         /* New styles for main content display */
         #main-content-display {
             width: 100%;
-            max-width: 800px;
+            height: 100%; /* Ensure full height for content page */
+            /* max-width: 800px; */ /* Removed to allow full width on mobile */
             border: 1px solid #00ff00;
             box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
             transition: box-shadow 0.3s ease-in-out;
@@ -213,8 +216,11 @@
             display: none; /* Initially hidden, will be shown via JS */
             flex-direction: column;
             flex-grow: 1; /* Allow content to grow and fill space */
-            padding: 20px;
+            padding: 20px; /* Use internal padding for content width */
             box-sizing: border-box;
+            position: absolute; /* Position absolutely to take full screen and hide terminal */
+            top: 0;
+            left: 0;
         }
 
         #main-content-display:hover {
@@ -228,6 +234,9 @@
             flex-grow: 1; /* Allow content sections to grow */
             display: flex;
             flex-direction: column;
+            align-items: flex-start; /* Align content to start */
+            max-width: 760px; /* Max width for content within the full-width display */
+            margin: 0 auto; /* Center content within the full-width display */
         }
 
         .content-section:last-child {
@@ -247,6 +256,7 @@
             font-family: 'JetBrains Mono', monospace;
             line-height: 1.5;
             flex-grow: 1; /* Allow pre content to grow within section */
+            width: 100%;
         }
 
         .back-button {
@@ -270,9 +280,9 @@
         }
 
         @media (max-width: 768px) {
-            .command-buttons {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+            .terminal-wrapper {
+                margin-bottom: 10px;
+                max-height: 90vh; /* Allow more vertical space on mobile */
             }
             .terminal-body {
                 max-height: 300px; /* Adjust terminal height for tablets */
@@ -280,13 +290,16 @@
             #main-content-display {
                 padding: 15px;
             }
+            .command-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .content-section {
+                max-width: unset; /* Remove max-width for content sections on smaller screens */
+            }
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-                align-items: flex-start; /* Align to top on small screens to prevent keyboard overlap */
-            }
             .terminal-wrapper {
                 margin-bottom: 10px;
                 max-height: 90vh; /* Allow more vertical space on mobile */
@@ -318,6 +331,9 @@
             .back-button {
                 font-size: 0.9em;
                 padding: 8px 12px;
+            }
+            .content-section {
+                padding: 0 5px; /* Add slight horizontal padding for mobile content */
             }
         }
     </style>
