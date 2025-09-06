@@ -17,12 +17,14 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            background: radial-gradient(circle at 50% 50%, #0a0a0a, #000000);
         }
 
         /* Mobile improvements for body padding */
         @media (max-width: 480px) {
             body {
                 padding: 10px; /* Reduce padding on very small screens */
+                align-items: flex-start; /* Align to top on small screens to prevent keyboard overlap */
             }
         }
 
@@ -30,13 +32,18 @@
             width: 100%;
             max-width: 800px;
             border: 1px solid #00ff00;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
             border-radius: 8px;
             overflow: hidden;
             background-color: #0a0a0a;
             display: flex;
             flex-direction: column;
             margin-bottom: 20px; /* Space between terminal and buttons */
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .terminal-wrapper:hover {
+            box-shadow: 0 0 35px rgba(0, 255, 0, 0.8);
         }
 
         .terminal-header {
@@ -123,6 +130,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 1em;
             position: relative;
+            padding-right: 15px; /* Add some padding to prevent cursor from touching the edge */
         }
 
         .terminal-input:focus {
@@ -181,8 +189,19 @@
                 grid-template-columns: 1fr;
             }
             .terminal-body {
-                max-height: 50vh;
+                max-height: 60vh; /* Adjust terminal body height for mobile */
                 font-size: 0.9em; /* Slightly reduce font size for better fit on small screens */
+            }
+            .terminal-wrapper {
+                margin-bottom: 10px;
+                max-height: 90vh; /* Allow more vertical space on mobile */
+            }
+            .terminal-input-area {
+                padding: 8px 10px;
+            }
+            .command-button {
+                padding: 8px 10px;
+                font-size: 0.9em;
             }
         }
     </style>
