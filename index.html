@@ -19,7 +19,7 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            overflow: hidden; /* Control overflow at the body level for page switching */
+            overflow-y: auto; /* Revert to auto to ensure content is visible */
         }
 
         /* Mobile improvements for body padding */
@@ -166,7 +166,7 @@
 
         /* Command buttons styling */
         .command-buttons {
-            display: none; /* Initially hidden, controlled by JavaScript */
+            display: grid; /* Revert to grid to make them visible by default */
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             width: 100%;
