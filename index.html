@@ -164,7 +164,7 @@
 
         /* Command buttons styling */
         .command-buttons {
-            display: grid;
+            /* display: grid; */ /* Removed to be controlled by JavaScript */
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             width: 100%;
@@ -567,6 +567,7 @@ Response Time: Within 24 hours</pre>
             // Function to show a specific content section and hide others
             function showContentSection(sectionId) {
                 terminalWrapper.style.display = 'none'; // Hide the terminal
+                commandButtons.style.display = 'none'; // New: Hide command buttons
                 mainContentDisplay.style.display = 'flex'; // Show the main content display
                 contentSections.forEach(section => {
                     section.style.display = 'none'; // Hide all content sections
@@ -579,6 +580,7 @@ Response Time: Within 24 hours</pre>
             function returnToHome() {
                 mainContentDisplay.style.display = 'none'; // Hide the main content display
                 terminalWrapper.style.display = 'flex'; // Show the terminal
+                commandButtons.style.display = 'grid'; // New: Show command buttons
                 terminalOutput.innerHTML = 'Welcome to my DevOps Portfolio! Type \'help\' to get started.<br>' + prompt;
                 terminalInput.focus();
                 // Hide all content sections when returning to home
